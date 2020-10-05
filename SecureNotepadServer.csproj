@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>bca61779-02de-4828-a9ca-9be5cd6ea3a5</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Encoded\**" />
+    <Content Remove="Encoded\**" />
+    <EmbeddedResource Remove="Encoded\**" />
+    <None Remove="Encoded\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
+  </ItemGroup>
+
+
+</Project>
