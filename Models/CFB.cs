@@ -31,9 +31,8 @@ namespace SecureNotepadServer.Models
             if (rem != 0)
             {
                 blocksNum++;
-                source = source.Concat(new byte[BLOCK_SIZE - rem]).ToArray();
+                source = source.Concat(new byte[BLOCK_SIZE -rem]).ToArray();
             }
-
             return Utils.DivideIntoBlocks(source, blocksNum, BLOCK_SIZE);
         }
 

@@ -1,25 +1,35 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
 using SecureNotepadServer.Models;
+using SecureNotepadServer.Services;
 
 namespace SecureNotepadServer.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     public class NotepadController : ControllerBase
-    { 
-        [HttpPost ("rsa")]
-        public void SendRSAKey([FromBody] RSAPublicKey rsaKey)
+    {
+        private ISecureNotepad secureNotepad;
+        public NotepadController(ISecureNotepad secureNotepad)
         {
-            HttpContext.Session.SetString("RSA", JsonConvert.SerializeObject(rsaKey));
+            this.secureNotepad = secureNotepad;
+        }
+     
+        [HttpPost("GMAlgorithm/{isGM}")]
+        public void PostAlgorithm(bool isGM)
+        {
+            secureNotepad.IsGMAlgorithm = isGM;
         }
 
-        [HttpGet ("encode")]
+        [HttpPost ("publicKey")]
+        public void PostPublicKey(PublicKey publicKey)
+        {
+            secureNotepad.PublicKey = publicKey;
+        }
+
+        [HttpGet ("encode/{fileName}")]
         public NotepadResponse GetEncodedFile(string fileName)
         {
-            return new SecureNotepad(JsonConvert.DeserializeObject<RSAPublicKey>(HttpContext.Session.GetString("RSA")))
-                .EncodeFile(fileName);
+            return secureNotepad.EncodeFile(fileName);
         }
     }
 }

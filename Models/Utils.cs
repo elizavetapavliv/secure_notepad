@@ -18,9 +18,9 @@ namespace SecureNotepadServer.Models
         }
         public static byte[] GenerateByteArray(int size)
         {
-            var sessionKey = new byte[size];
-            new Random().NextBytes(sessionKey);
-            return sessionKey;
+            var bytes = new byte[size];
+            new Random().NextBytes(bytes);
+            return bytes;
         }
     }
 }

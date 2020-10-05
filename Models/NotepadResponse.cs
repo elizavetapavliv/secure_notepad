@@ -5,11 +5,17 @@ namespace SecureNotepadServer.Models
     public class NotepadResponse
     {
         public byte[] File { get; set; }
-        public BigInteger SessionKey { get; set; }
-        public NotepadResponse(byte[] file, BigInteger sessionKey)
+        public BigInteger RSAEncodedKey { get; set; }
+        public BigInteger[] GMEncodedKey { get; set; }
+        public NotepadResponse(byte[] file, BigInteger rsaEncodedKey)
         {
             File = file;
-            SessionKey = sessionKey;
+            RSAEncodedKey = rsaEncodedKey;
+        }
+        public NotepadResponse(byte[] file, BigInteger[] gmEncodedKey)
+        {
+            File = file;
+            GMEncodedKey = gmEncodedKey;
         }
     }
 }
