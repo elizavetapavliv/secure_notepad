@@ -23,16 +23,16 @@ namespace SecureNotepadServer.Services
             var source = LoadDataFromFile(fileName);
             var sessionKey = GetSessionKey();
          
-            var encodedFile = new CFB(sessionKey).Encrypt(source);
+            var (encodedFile, iv) = new CFB(sessionKey).Encrypt(source);
 
             NotepadResponse response;
             if (IsGMAlgorithm)
             {
-                response = new NotepadResponse(encodedFile, EncodeWithGM(sessionKey));
+                response = new NotepadResponse(encodedFile, iv, EncodeWithGM(sessionKey));
             }
             else
             {
-                response = new NotepadResponse(encodedFile, EncodeWithRSA(sessionKey));
+                response = new NotepadResponse(encodedFile, iv, EncodeWithRSA(sessionKey));
             }
             return response;
         }

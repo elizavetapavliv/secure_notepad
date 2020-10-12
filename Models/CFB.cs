@@ -10,7 +10,7 @@ namespace SecureNotepadServer.Models
         {
             idea = new IDEACipher(key);
         }
-        public byte[] Encrypt(byte[] source)
+        public (byte[], byte[]) Encrypt(byte[] source)
         {
             var blocks = getBlocks(source); 
             var iv = Utils.GenerateByteArray(BLOCK_SIZE);
@@ -21,7 +21,7 @@ namespace SecureNotepadServer.Models
                 var current = Xor(idea.Encrypt(encrypted), blocks[i]);
                 encrypted = encrypted.Concat(current).ToArray();
             }
-            return encrypted.Take(source.Length).ToArray();
+            return (encrypted.Take(source.Length).ToArray(), iv);
         }
 
         private byte[][] getBlocks(byte[] source)
@@ -31,7 +31,7 @@ namespace SecureNotepadServer.Models
             if (rem != 0)
             {
                 blocksNum++;
-                source = source.Concat(new byte[BLOCK_SIZE -rem]).ToArray();
+                source = source.Concat(new byte[BLOCK_SIZE - rem]).ToArray();
             }
             return Utils.DivideIntoBlocks(source, blocksNum, BLOCK_SIZE);
         }
