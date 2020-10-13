@@ -83,7 +83,8 @@ namespace SecureNotepadServer.Services
             byte[] source;
             try
             {
-                source = File.ReadAllBytes($"Files\\{fileName}");
+                source = File.ReadAllBytes($"{Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location)}" +
+                    $"\\Files\\{fileName}");
             }
             catch
             {
