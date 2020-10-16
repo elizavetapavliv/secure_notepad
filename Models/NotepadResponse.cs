@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Linq;
+using System.Numerics;
 
 namespace SecureNotepadServer.Models
 {
@@ -6,8 +7,8 @@ namespace SecureNotepadServer.Models
     {
         public byte[] File { get; set; }
         public byte[] IV { get; set; }
-        public BigInteger RSAEncodedKey { get; set; }
-        public BigInteger[] GMEncodedKey { get; set; }
+        public string RSAEncodedKey { get; set; }
+        public string[] GMEncodedKey { get; set; }
         private NotepadResponse(byte[] file, byte[] iv)
         {
             File = file;
@@ -15,11 +16,11 @@ namespace SecureNotepadServer.Models
         }
         public NotepadResponse(byte[] file, byte[] iv, BigInteger rsaEncodedKey) : this(file, iv)
         {
-            RSAEncodedKey = rsaEncodedKey;
+            RSAEncodedKey = rsaEncodedKey.ToString();
         }
         public NotepadResponse(byte[] file, byte[] iv, BigInteger[] gmEncodedKey) : this(file, iv)
         {
-            GMEncodedKey = gmEncodedKey;
+            GMEncodedKey = gmEncodedKey.Select(c => c.ToString()).ToArray();
         }
     }
 }

@@ -43,15 +43,15 @@ namespace SecureNotepadServer.Services
         }
         private BigInteger[] EncodeWithGM(byte[] sessionKey)
         {
-            var bits = new BitArray(sessionKey);
+            var bits = new BitArray(sessionKey);         
             var N = PublicKey.N;
             var x = PublicKey.X;
-            var length = sessionKey.Length;
+            var length = bits.Length;
             var result = new BigInteger[length];
             for (int i = 0; i < length; i++) 
             {
-                var y = GenerateRandomBigInteger(N);
-                result[i] = BigInteger.Multiply(BigInteger.Pow(y, 2), bits[i] ? x : 1);
+                var y2 = BigInteger.Pow(GenerateRandomBigInteger(N), 2);
+                result[i] = (bits[i] ? BigInteger.Multiply(y2,  x) : y2) % N;
             }
             return result;
         }

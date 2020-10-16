@@ -15,7 +15,7 @@
             int j = 0;
             for (int i = 0; i < key.Length; i += 2) 
             {
-                subkeys[j++] = ConcatBytes (key[i], key[i + 1]);
+                subkeys[j++] = ConcatBytes(key[i], key[i + 1]);
             }
             for (int i = 9; i < subkeys.Length + 1; i++)
             {
@@ -55,8 +55,9 @@
                 blocks[3] = (ushort)(d ^ h);
             }
             blocks[0] = ModMul(blocks[0], subkeys[j++]);
+            var temp = blocks[1];
             blocks[1] = ModAdd(blocks[2], subkeys[j++]);
-            blocks[2] = ModAdd(blocks[1], subkeys[j++]);
+            blocks[2] = ModAdd(temp, subkeys[j++]);
             blocks[3] = ModMul(blocks[3], subkeys[j]);
 
             j = 0;

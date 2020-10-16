@@ -12,13 +12,14 @@ namespace SecureNotepadServer.Models
         }
         public (byte[], byte[]) Encrypt(byte[] source)
         {
-            var blocks = getBlocks(source); 
+            var blocks = getBlocks(source);
             var iv = Utils.GenerateByteArray(BLOCK_SIZE);
 
             var encrypted = Xor(idea.Encrypt(iv), blocks[0]);
+            var current = encrypted;
             for (int i = 1; i < blocks.Length; i++)
             {
-                var current = Xor(idea.Encrypt(encrypted), blocks[i]);
+                current = Xor(idea.Encrypt(current), blocks[i]);
                 encrypted = encrypted.Concat(current).ToArray();
             }
             return (encrypted.Take(source.Length).ToArray(), iv);
